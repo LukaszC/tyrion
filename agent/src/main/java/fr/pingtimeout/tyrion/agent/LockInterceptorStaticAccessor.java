@@ -6,7 +6,7 @@ public class LockInterceptorStaticAccessor {
     public static final String EXIT_METHOD_NAME = "leavingCriticalSection";
     public static final String ENTER_EXIT_METHOD_SIGNATURE = "(Ljava/lang/Object;)V";
 
-    static LockInterceptor lockInterceptor = LockInterceptor.getInstance();
+    public static LockInterceptor lockInterceptor = LockInterceptor.getInstance();
 
     public static void enteredCriticalSection(Object lock) {
         lockInterceptor.enteredCriticalSection(lock);

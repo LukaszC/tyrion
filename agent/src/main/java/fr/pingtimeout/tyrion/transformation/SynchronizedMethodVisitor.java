@@ -16,7 +16,7 @@
  * along with this work; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package fr.pingtimeout.tyrion.agent;
+package fr.pingtimeout.tyrion.transformation;
 
 import fr.pingtimeout.tyrion.util.SimpleLogger;
 import org.objectweb.asm.ClassVisitor;

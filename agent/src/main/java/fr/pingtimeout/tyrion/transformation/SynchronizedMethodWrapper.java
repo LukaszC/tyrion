@@ -16,14 +16,15 @@
  * along with this work; if not, see <http://www.gnu.org/licenses/>.
  */
 
-package fr.pingtimeout.tyrion.agent;
+package fr.pingtimeout.tyrion.transformation;
 
+import fr.pingtimeout.tyrion.agent.LockInterceptorStaticAccessor;
 import fr.pingtimeout.tyrion.util.SimpleLogger;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.AdviceAdapter;
 
-import static fr.pingtimeout.tyrion.agent.SynchronizedMethodVisitor.isStatic;
+import static fr.pingtimeout.tyrion.transformation.SynchronizedMethodVisitor.isStatic;
 
 class SynchronizedMethodWrapper extends AdviceAdapter {
 
