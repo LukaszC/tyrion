@@ -101,6 +101,13 @@ public class TyrionTransformer {
             // Duplicate lock
             SimpleLogger.debug("Inserting DUP before %s", monitorEnterInsnNode);
             methodNode.instructions.insertBefore(monitorEnterInsnNode, new InsnNode(Opcodes.DUP));
+            methodNode.instructions.insertBefore(monitorEnterInsnNode, new InsnNode(Opcodes.DUP));
+
+            // Add invokestatic just before critical section
+            SimpleLogger.debug("Inserting call to enteringSynchronizedBlock before %s", monitorEnterInsnNode);
+            methodNode.instructions.insertBefore(monitorEnterInsnNode, new MethodInsnNode(Opcodes.INVOKESTATIC,
+                    LockInterceptorStaticAccessor.CLASS_FQN,
+                    LockInterceptorStaticAccessor.ENTERING_METHOD_NAME, LockInterceptorStaticAccessor.ENTER_EXIT_METHOD_SIGNATURE));
 
             // Add invokestatic as first instruction of critical section
             AbstractInsnNode nodeAfterInterception = monitorEnterInsnNode.getNext();

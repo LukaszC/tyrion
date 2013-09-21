@@ -60,6 +60,7 @@ public class TyrionTransformerTest {
         ProtectedBlock result = transformClass(SynchronizationBlock.class);
         Object lock = result.getLock();
         assertLockIsNotTaken(lock, measurePoints).measurePoint1();
+        assertLockIsNotTaken(lock, lockInterceptor).enteringCriticalSection(any());
         assertLockIsTaken(lock, lockInterceptor).enteredCriticalSection(any());
         assertLockIsTaken(lock, measurePoints).measurePoint2();
         assertLockIsTaken(lock, lockInterceptor).leavingCriticalSection(any());
@@ -69,6 +70,7 @@ public class TyrionTransformerTest {
 
         InOrder inOrder = inOrder(measurePoints, lockInterceptor);
         inOrder.verify(measurePoints).measurePoint1();
+        inOrder.verify(lockInterceptor).enteringCriticalSection(lock);
         inOrder.verify(lockInterceptor).enteredCriticalSection(lock);
         inOrder.verify(measurePoints).measurePoint2();
         inOrder.verify(lockInterceptor).leavingCriticalSection(lock);

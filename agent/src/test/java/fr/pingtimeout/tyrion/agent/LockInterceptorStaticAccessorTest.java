@@ -14,6 +14,20 @@ public class LockInterceptorStaticAccessorTest {
         Object mockedTarget = mock(Object.class);
 
         // When
+        LockInterceptorStaticAccessor.enteringCriticalSection(mockedTarget);
+
+        // Then
+        verify(mockedLockInterceptor).enteringCriticalSection(mockedTarget);
+    }
+
+    @Test
+    public void should_delegate_entered_critical_section_to_LockInterceptor() {
+        // Given
+        LockInterceptor mockedLockInterceptor = mock(LockInterceptor.class);
+        LockInterceptorStaticAccessor.lockInterceptor = mockedLockInterceptor;
+        Object mockedTarget = mock(Object.class);
+
+        // When
         LockInterceptorStaticAccessor.enteredCriticalSection(mockedTarget);
 
         // Then

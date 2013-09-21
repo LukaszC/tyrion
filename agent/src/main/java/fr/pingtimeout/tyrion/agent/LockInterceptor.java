@@ -64,6 +64,10 @@ public class LockInterceptor implements LockInterceptorMXBean {
         this.enabled.getAndSet(newState);
     }
 
+    // Note : this method is called dynamically
+    public void enteringCriticalSection(Object lock) {
+        // TODO:
+    }
 
     // Note : this method is called dynamically
     public void enteredCriticalSection(Object lock) {
