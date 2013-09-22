@@ -1,7 +1,6 @@
 package fr.pingtimeout.tyrion.model;
 
 import org.apache.commons.io.IOUtils;
-import org.assertj.core.data.MapEntry;
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -222,6 +221,21 @@ public class LocksFileReaderTest {
         assertThat(contentedAccesses.get(lock1)).containsOnly(accessOfLock1FromThread1At100, accessOfLock1FromThread2At102);
         assertThat(contentedAccesses.get(lock2)).containsOnly(accessOfLock2FromThread1At110, accessOfLock2FromThread2At112);
         assertThat(contentedAccesses).hasSize(2);
+    }
+
+    @Test
+    public void should_ignore_entering_event_for_now() {
+        // TODO: this test is going to be removed once we will implement handling for entering event
+        // Given
+        String events = ""
+                + "{\"entering\":{\"timestamp\":100,\"accessor\":{\"id\":1,\"name\":\"Thread 1\"},\"target\":{\"hashcode\":1690956574,\"className\":\"java.lang.Class\"}}}\n";
+        InputStream inputStream = IOUtils.toInputStream(events);
+
+         // When
+        new LocksFileReader(inputStream).buildAccessReport();
+
+        // Then
+        // should not throw an exception
     }
 
 

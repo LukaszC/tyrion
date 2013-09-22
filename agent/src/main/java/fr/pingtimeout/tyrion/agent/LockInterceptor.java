@@ -25,7 +25,6 @@ import fr.pingtimeout.tyrion.util.SimpleLogger;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -66,7 +65,9 @@ public class LockInterceptor implements LockInterceptorMXBean {
 
     // Note : this method is called dynamically
     public void enteringCriticalSection(Object lock) {
-        // TODO:
+        if (enabled.get() && shouldIncludeThread()) {
+            eventsHolder.recordNewEntering(Thread.currentThread(), lock);
+        }
     }
 
     // Note : this method is called dynamically

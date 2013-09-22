@@ -33,6 +33,23 @@ import static org.assertj.core.api.Assertions.extractProperty;
 
 public class EventsHolderSingletonTest {
     @Test
+    public void test_record_new_entering() {
+        // Given
+        Object lock = new Object();
+        EventsHolderSingleton eventsHolder = EventsHolderSingleton.INSTANCE;
+        Thread accessor = Thread.currentThread();
+        CriticalSectionEvent criticalSectionEvent = new CriticalSectionEntering(accessor, lock);
+
+        // When
+        eventsHolder.recordNewEntering(accessor, lock);
+
+        // Then
+        assertThat(eventsHolder.getAndClearEventsListOf(accessor.getId()))
+                .usingElementComparator(new CriticalSectionEventsWithoutTime())
+                .containsOnly(criticalSectionEvent);
+    }
+
+    @Test
     public void test_record_new_entry() {
         // Given
         Object lock = new Object();
@@ -90,7 +107,6 @@ public class EventsHolderSingletonTest {
         final Set<Long> threadIds = eventsHolder.getThreadIds();
         final CriticalSectionEventsWithoutTime eventsWithoutTime = new CriticalSectionEventsWithoutTime();
 
-        assertThat(threadIds).hasSize(numberOfThreads);
         assertThat(threadIds).containsAll(expectedThreadIds);
 
         for (Thread thread : threads) {

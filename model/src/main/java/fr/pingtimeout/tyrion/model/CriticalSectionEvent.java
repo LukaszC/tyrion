@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
 @JsonSubTypes({
+        @JsonSubTypes.Type(value = CriticalSectionEntering.class, name = "entering"),
         @JsonSubTypes.Type(value = CriticalSectionEntered.class, name = "enter"),
         @JsonSubTypes.Type(value = CriticalSectionExit.class, name = "exit")
 })

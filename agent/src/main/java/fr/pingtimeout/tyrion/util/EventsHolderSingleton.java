@@ -2,10 +2,10 @@ package fr.pingtimeout.tyrion.util;
 
 import fj.data.List;
 import fr.pingtimeout.tyrion.model.CriticalSectionEntered;
+import fr.pingtimeout.tyrion.model.CriticalSectionEntering;
 import fr.pingtimeout.tyrion.model.CriticalSectionEvent;
 import fr.pingtimeout.tyrion.model.CriticalSectionExit;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,12 +17,15 @@ public enum EventsHolderSingleton implements EventsHolder {
 
     private Map<Long, AtomicReference<List<CriticalSectionEvent>>> events = new ConcurrentHashMap<>();
 
+    @Override
+    public void recordNewEntering(Thread accessor, Object objectUnderLock) {
+        add(accessor, new CriticalSectionEntering(accessor, objectUnderLock));
+    }
 
     @Override
     public void recordNewEntry(Thread accessor, Object objectUnderLock) {
         add(accessor, new CriticalSectionEntered(accessor, objectUnderLock));
     }
-
 
     @Override
     public void recordNewExit(Thread accessor, Object objectUnderLock) {

@@ -55,12 +55,15 @@ public class LocksFileReader {
 
 
     private void processLine(String line, Map<Accessor, CriticalSectionEntered> lastEnterInCriticalSection) throws IOException {
-        if (line.startsWith("{\"enter")) {
+        if (line.startsWith("{\"enter\":")) {
             CriticalSectionEntered event = OBJECT_MAPPER.readValue(line, CriticalSectionEntered.class);
             process(event, lastEnterInCriticalSection);
-        } else {
+        } else if (line.startsWith("{\"exit\":")) {
             CriticalSectionExit event = OBJECT_MAPPER.readValue(line, CriticalSectionExit.class);
             process(event, lastEnterInCriticalSection);
+        } else {
+            // TODO: for the time being we will ignore "entering" event
+            logger.warning("Unknown line: " + line);
         }
     }
 
